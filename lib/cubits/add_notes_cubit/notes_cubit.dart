@@ -1,21 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes_app/constents.dart';
 import 'package:notes_app/models/note_model.dart';
-
 import 'notes_state.dart';
 
-class AddNotesCubit extends Cubit<AddNotesCubit> {
-  AddNotesCubit() : super(AddNotesInitial() as AddNotesCubit);
+class AddNotesCubit extends Cubit<AddNotesState> {
+  AddNotesCubit() : super(AddNotesInitial());
 
-  addNote(NoteModel note) async {
-    emit(AddNoteLoading() as AddNotesCubit);
+  Future<void> addNote(NoteModel note) async {
+    emit(AddNoteLoading());
     try {
       var notesBox = Hive.box<NoteModel>(kNotesBox);
-      emit(AddNoteSuccess() as AddNotesCubit);
       await notesBox.add(note);
+      emit(AddNoteSuccess());
     } catch (e) {
-      AddNoteFailure(e.toString())
+      emit(AddNoteFailure(e.toString()));
     }
   }
 }

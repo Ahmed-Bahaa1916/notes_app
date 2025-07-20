@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../../constents.dart';
 
 class CustomBottom extends StatelessWidget {
-  const CustomBottom({super.key, this.onTap});
+  const CustomBottom({super.key, this.onTap, this.isLoading = false});
 
   final void Function()? onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +19,19 @@ class CustomBottom extends StatelessWidget {
             color: KPrimaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Center(
-            child: (Text(
-              'Add',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
+          child: Center(
+            child: (isLoading
+                ? const CircularProgressIndicator(
+                    color: Colors.black,
+                  )
+                : const Text(
+                    'Add',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
           )),
     );
   }
